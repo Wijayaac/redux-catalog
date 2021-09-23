@@ -14,20 +14,20 @@ function ProductDetail() {
   const product = useSelector((state) => state.product);
 
   useEffect(() => {
+    const fetchProductDetail = async () => {
+      const response = await axios
+        .get(`https://fakestoreapi.com/products/${productId}`)
+        .catch((err) => console.log("Error", err));
+
+      dispatch(selectedProduct(response.data));
+    };
     if (productId && productId !== "") {
       fetchProductDetail();
     }
     return () => {
       dispatch(removeSelectedProduct());
     };
-  }, []);
-  const fetchProductDetail = async () => {
-    const response = await axios
-      .get(`https://fakestoreapi.com/products/${productId}`)
-      .catch((err) => console.log("Error", err));
-
-    dispatch(selectedProduct(response.data));
-  };
+  }, [dispatch, productId]);
 
   return (
     <div className="ui grid container">

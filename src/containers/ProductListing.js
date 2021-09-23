@@ -10,14 +10,14 @@ function ProductListing() {
   const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
   useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await axios
+        .get("https://fakestoreapi.com/products")
+        .catch((err) => console.log("Error", err));
+      dispatch(setProducts(response.data));
+    };
     fetchProducts();
-  }, []);
-  const fetchProducts = async () => {
-    const response = await axios
-      .get("https://fakestoreapi.com/products")
-      .catch((err) => console.log("Error", err));
-    dispatch(setProducts(response.data));
-  };
+  }, [dispatch]);
 
   return (
     <div className="ui grid container">
