@@ -7,6 +7,7 @@ import { setProducts } from "../redux/actions/productActions";
 import ProductComponent from "./ProductComponent";
 
 function ProductListing() {
+  const products = useSelector((state) => state.allProducts.products);
   const dispatch = useDispatch();
   useEffect(() => {
     fetchProducts();
@@ -20,7 +21,13 @@ function ProductListing() {
 
   return (
     <div className="ui grid container">
-      <ProductComponent />
+      {Object.keys(products).length === 0 ? (
+        <div>Loading...</div>
+      ) : (
+        products.map((product) => (
+          <ProductComponent key={product.id} product={product} />
+        ))
+      )}
     </div>
   );
 }
